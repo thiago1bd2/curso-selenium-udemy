@@ -109,6 +109,8 @@ public class SeleniumAlerts {
 		String promptQuestion = alert.getText();
 		
 		assertEquals("Digite um numero", promptQuestion);
+		
+		webDriver.quit();
 	}
 	
 	@Test
@@ -129,6 +131,54 @@ public class SeleniumAlerts {
 		String textValidation = alert.getText();
 		
 		assertEquals("Era "+number+"?", textValidation);
+		
+		webDriver.quit();
+		
+	}
+	
+	@Test
+	public void deveInteragirComAlertPromptNumeroOKAck() {
+		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
+		WebDriver webDriver = new ChromeDriver();
+		webDriver.get(CAMPO_TREINAMENTO_HTML);
+		
+		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		promptButton.click();
+		
+		Alert alert = webDriver.switchTo().alert();
+		
+		String number = "10";		
+		alert.sendKeys(number);
+		alert.accept();
+		alert.accept();
+		
+		String textValidation = alert.getText();
+		
+		assertEquals(":D", textValidation);
+		
+		webDriver.quit();
+		
+	}
+	
+	@Test
+	public void deveInteragirComAlertPromptNumeroOKNaoAck() {
+		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
+		WebDriver webDriver = new ChromeDriver();
+		webDriver.get(CAMPO_TREINAMENTO_HTML);
+		
+		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		promptButton.click();
+		
+		Alert alert = webDriver.switchTo().alert();
+		
+		String number = "10";		
+		alert.sendKeys(number);
+		alert.accept();
+		alert.dismiss();
+		
+		String textValidation = alert.getText();
+		
+		assertEquals(":(", textValidation);
 		
 		webDriver.quit();
 		
