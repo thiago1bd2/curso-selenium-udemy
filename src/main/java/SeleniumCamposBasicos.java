@@ -3,7 +3,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -183,7 +182,7 @@ public class SeleniumCamposBasicos {
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
 
-		WebElement body = webDriver.findElement(By.tagName("body"));
+//		WebElement body = webDriver.findElement(By.tagName("body"));
 //		assertTrue(body.getText().contains("Campo de Treinamento")); -> nao eficiente
 //		assertTrue(webDriver.findElement(By.tagName("h3")).getText()
 //				.contains("Campo de Treinamento"));

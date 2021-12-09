@@ -2,12 +2,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class TesteFuncionalCadastro {
 	
@@ -183,5 +186,78 @@ public class TesteFuncionalCadastro {
 		assertTrue((favoriteFoodCarne.isSelected() || favoriteFoodFrango.isSelected()) && favoriteFoodVegetariano.isSelected());
 		
 		webDriver.quit();
+	}
+	
+	@Test
+	public void deveValidarSeOqueEhEsporteMaisOutroEsporteAposMemsagemErro() {
+		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
+		WebDriver webDriver = new ChromeDriver();
+		webDriver.get(CAMPO_TREINAMENTO_HTML);
+
+		webDriver.findElement(By.id("elementosForm:nome")).sendKeys("Nome");
+		webDriver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Sobrenome");
+		webDriver.findElement(By.id("elementosForm:sexo:0")).click();
+		
+		WebElement favoriteSport = webDriver.findElement(By.id("elementosForm:esportes"));
+		Select fSport = new Select(favoriteSport);
+		
+		int i = (int) (Math.random() * (fSport.getOptions().size()-1));
+						
+		fSport.selectByIndex(i);
+		String oQueEhEsporteOption = "O que eh esporte?";
+		
+		fSport.selectByVisibleText(oQueEhEsporteOption);
+		
+		WebElement inputFormCadastrar = webDriver.findElement(By.id("elementosForm:cadastrar"));
+		inputFormCadastrar.click();
+		
+		Alert alert = webDriver.switchTo().alert();
+		alert.accept();
+		
+		boolean hasOQueEhEsporte = false;
+		
+		List<WebElement> allSelectedOptions = fSport.getAllSelectedOptions();
+		
+		for (WebElement webElement : allSelectedOptions) {
+			if (webElement.getText().equals(oQueEhEsporteOption)) {
+				hasOQueEhEsporte = true;
+				break;
+			}
+		}
+		
+		assertTrue((allSelectedOptions.size() > 1) && hasOQueEhEsporte);
+		
+		webDriver.quit();
+		
+	}
+	
+	@Test
+	public void deveValidarSeOqueEhEsporteMaisOutroEsporteMemsagemErro() {
+		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
+		WebDriver webDriver = new ChromeDriver();
+		webDriver.get(CAMPO_TREINAMENTO_HTML);
+
+		webDriver.findElement(By.id("elementosForm:nome")).sendKeys("Nome");
+		webDriver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Sobrenome");
+		webDriver.findElement(By.id("elementosForm:sexo:0")).click();
+		
+		WebElement favoriteSport = webDriver.findElement(By.id("elementosForm:esportes"));
+		Select fSport = new Select(favoriteSport);
+		
+		
+		System.out.println(fSport.getOptions().size());
+		int i = (int) (Math.random() * (fSport.getOptions().size()-1));
+						
+		fSport.selectByIndex(i);
+		fSport.selectByVisibleText("O que eh esporte?");
+		
+		WebElement inputFormCadastrar = webDriver.findElement(By.id("elementosForm:cadastrar"));
+		inputFormCadastrar.click();
+		
+		Alert alert = webDriver.switchTo().alert();
+		assertEquals("Voce faz esporte ou nao?", alert.getText());
+		
+		webDriver.quit();
+		
 	}
 }
