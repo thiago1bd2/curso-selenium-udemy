@@ -34,63 +34,63 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComTextField() {
-		dsl.escreverTextoById("elementosForm:nome", "Teste de escrita");
-		assertEquals("Teste de escrita", dsl.obterValorElementoByID("elementosForm:nome"));
+		dsl.escreverTexto("elementosForm:nome", "Teste de escrita");
+		assertEquals("Teste de escrita", dsl.obterValorElemento("elementosForm:nome"));
 	}
 
 	@Test
 	public void deveInteragirComTextArea() {
-		dsl.escreverTextoById("elementosForm:sugestoes", "Teste de escrita");
-		assertEquals("Teste de escrita", dsl.obterValorElementoByID("elementosForm:sugestoes"));
+		dsl.escreverTexto("elementosForm:sugestoes", "Teste de escrita");
+		assertEquals("Teste de escrita", dsl.obterValorElemento("elementosForm:sugestoes"));
 	}
 
 	@Test
 	public void deveInteragirComRadioButton() {
-		dsl.clicarElementoByID("elementosForm:sexo:0");		
-		assertTrue(dsl.isElementoSelecionadoById("elementosForm:sexo:0"));
+		dsl.clicarElemento("elementosForm:sexo:0");		
+		assertTrue(dsl.isElementoSelecionado("elementosForm:sexo:0"));
 	}
 
 	@Test
 	public void deveInteragirComCheckbox() {
-		dsl.clicarElementoByID("elementosForm:comidaFavorita:2");
-		assertTrue(dsl.isElementoSelecionadoById("elementosForm:comidaFavorita:2"));
+		dsl.clicarElemento("elementosForm:comidaFavorita:2");
+		assertTrue(dsl.isElementoSelecionado("elementosForm:comidaFavorita:2"));
 	}
 
 	@Test
 	public void deveInteragirComcombobox() {
-		dsl.selecionarTextoVisivelComboById("elementosForm:escolaridade", "Especializacao");
-		assertEquals("Especializacao", dsl.obterValorSelecionadoComboById("elementosForm:escolaridade"));
+		dsl.selecionarTextoVisivelCombo("elementosForm:escolaridade", "Especializacao");
+		assertEquals("Especializacao", dsl.obterValorSelecionadoCombo("elementosForm:escolaridade"));
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoCombobox() {
-		assertTrue(dsl.isValorDisponivelComboById("elementosForm:escolaridade", "Mestrado"));
+		assertTrue(dsl.isValorDisponivelCombo("elementosForm:escolaridade", "Mestrado"));
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoComboboxMultiplo() {
-		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "Natacao");
-		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "Corrida");
-		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "O que eh esporte?");
+		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Natacao");
+		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Corrida");
+		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "O que eh esporte?");
 
-		assertEquals(3, dsl.quantidadeValoresSelecionadosById("elementosForm:esportes"));
+		assertEquals(3, dsl.quantidadeValoresSelecionadosCombo("elementosForm:esportes"));
 	}
 
 	@Test
 	public void deveClicarNoBotaoEVerificarValor() {
-		dsl.clicarElementoByID("buttonSimple");
-		assertEquals("Obrigado!", dsl.obterValorElementoByID("buttonSimple"));
+		dsl.clicarElemento("buttonSimple");
+		assertEquals("Obrigado!", dsl.obterValorElemento("buttonSimple"));
 	}
 
 	@Test
 	public void deveClicarLinkVoltarEAlterarValor() {
-		dsl.clicarElementoByLinkText("Voltar");
-		assertEquals("Voltou!", dsl.obterTextoElementoById("resultado"));
+		dsl.clicarElemento(By.linkText("Voltar"));
+		assertEquals("Voltou!", dsl.obterTextoElemento("resultado"));
 	}
 
 	@Test
 	public void deveBuscarTextosNaPagina() {
-		assertTrue((dsl.obterTextoElementoByClassName("facilAchar"))
+		assertTrue((dsl.obterTextoElemento(By.className("facilAchar")))
 				.contains("Cuidado onde clica, muitas armadilhas..."));
 	}
 }

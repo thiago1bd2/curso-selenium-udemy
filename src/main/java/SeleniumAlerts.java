@@ -16,12 +16,15 @@ public class SeleniumAlerts {
 
 	private WebDriver driver;
 
+	private DSL dsl;
+
 	@Before
 	public void init() {
 		driver = new ChromeDriver();
 		driver.get(CAMPO_TREINAMENTO_HTML);
+		dsl = new DSL(driver);
 	}
-	
+
 	@After
 	public void finalize() {
 		driver.quit();
@@ -29,27 +32,24 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComAlertSimples() {
-		WebElement alertButton = driver.findElement(By.id("alert"));
-		alertButton.click();
-		Alert alert = driver.switchTo().alert();
+		dsl.clicarElemento("alert");
+		
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String text = alert.getText();
 
 		assertEquals("Alert Simples", text);
 
-		alert.accept();
-
-		WebElement nomeInputText = driver.findElement(By.id("elementosForm:nome"));
-		nomeInputText.sendKeys(text);
+		dsl.confirmarAlerta(alert);
+		dsl.escreverTexto("elementosForm:nome", text);
 
 	}
 
 	@Test
 	public void deveInteragirComConfirmAlert() {
-		WebElement confirmButton = driver.findElement(By.id("confirm"));
-		confirmButton.click();
+		dsl.clicarElemento("confirm");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String confirmText = alert.getText();
 
@@ -59,13 +59,11 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComConfirmAlertEConfirmar() {
-		WebElement confirmButton = driver.findElement(By.id("confirm"));
-		confirmButton.click();
+		dsl.clicarElemento("confirm");
 
-		Alert alert = driver.switchTo().alert();
-
-		alert.accept();
-
+		Alert alert = dsl.mudarFocoAlerta();
+		dsl.confirmarAlerta(alert);
+		
 		String confirmText = alert.getText();
 
 		assertEquals("Confirmado", confirmText);
@@ -74,13 +72,10 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComConfirmAlertECancelar() {
-		WebElement confirmButton = driver.findElement(By.id("confirm"));
-		confirmButton.click();
+		dsl.clicarElemento("confirm");
 
-		Alert alert = driver.switchTo().alert();
-
-		alert.dismiss();
-
+		Alert alert = dsl.mudarFocoAlerta();
+		dsl.cancelarAlerta(alert);
 		String confirmText = alert.getText();
 
 		assertEquals("Negado", confirmText);
@@ -89,10 +84,9 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComAlertPrompt() {
-		WebElement promptButton = driver.findElement(By.id("prompt"));
-		promptButton.click();
+		dsl.clicarElemento("prompt");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String promptQuestion = alert.getText();
 
@@ -102,14 +96,13 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOk() {
-		WebElement promptButton = driver.findElement(By.id("prompt"));
-		promptButton.click();
+		dsl.clicarElemento("prompt");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String number = "10";
-		alert.sendKeys(number);
-		alert.accept();
+		dsl.escreverPrompAlert(alert, number);
+		dsl.confirmarAlerta(alert);
 
 		String textValidation = alert.getText();
 
@@ -119,15 +112,14 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOKAck() {
-		WebElement promptButton = driver.findElement(By.id("prompt"));
-		promptButton.click();
+		dsl.clicarElemento("prompt");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String number = "10";
-		alert.sendKeys(number);
-		alert.accept();
-		alert.accept();
+		dsl.escreverPrompAlert(alert, number);
+		dsl.confirmarAlerta(alert);
+		dsl.confirmarAlerta(alert);
 
 		String textValidation = alert.getText();
 
@@ -137,15 +129,14 @@ public class SeleniumAlerts {
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOKNaoAck() {
-		WebElement promptButton = driver.findElement(By.id("prompt"));
-		promptButton.click();
+		dsl.clicarElemento("prompt");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 
 		String number = "10";
-		alert.sendKeys(number);
-		alert.accept();
-		alert.dismiss();
+		dsl.escreverPrompAlert(alert, number);
+		dsl.confirmarAlerta(alert);
+		dsl.cancelarAlerta(alert);
 
 		String textValidation = alert.getText();
 

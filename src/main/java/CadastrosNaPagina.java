@@ -14,12 +14,26 @@ public class CadastrosNaPagina {
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
+	private String nome = "Thiago";
+	private String sobrenome = "Ribeiro";
+
 	private WebDriver driver;
+	private DSL dsl;
 
 	@Before
 	public void init() {
 		driver = new ChromeDriver();
 		driver.get(CAMPO_TREINAMENTO_HTML);
+
+		dsl = new DSL(driver);
+
+		dsl.escreverTexto("elementosForm:nome", nome);
+		dsl.escreverTexto("elementosForm:sobrenome", sobrenome);
+		dsl.clicarElemento("elementosForm:sexo:0");
+		dsl.clicarElemento("elementosForm:comidaFavorita:2");
+		dsl.selecionarTextoVisivelCombo("elementosForm:escolaridade", "Superior");
+		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Corrida");
+		dsl.clicarElemento("elementosForm:cadastrar");
 	}
 
 	@After
@@ -28,46 +42,40 @@ public class CadastrosNaPagina {
 	}
 
 	@Test
-	public void deveCadastrarUmaPessoaEValidarDados() {
-		String nome = "Thiago";
-		String sobrenome = "Ribeiro";
+	public void validaSeResultadoEstaVisivel() {
+		assertTrue(dsl.obterTextoElemento("resultado").startsWith("Cadastrado!"));
 
-		WebElement inputTextName = driver.findElement(By.id("elementosForm:nome"));
-		WebElement inputTextSurname = driver.findElement(By.id("elementosForm:sobrenome"));
-		WebElement radioButtonMan = driver.findElement(By.id("elementosForm:sexo:0"));
-		WebElement checkBoxFavoriteFood = driver.findElement(By.id("elementosForm:comidaFavorita:2"));
+	}
 
-		WebElement comboBoxEducationLevel = driver.findElement(By.id("elementosForm:escolaridade"));
-		Select comboEducation = new Select(comboBoxEducationLevel);
+	@Test
+	public void validaSeNomeEhIgualNomeRegistrado() {
+		assertTrue(dsl.obterTextoElemento("descNome").endsWith(nome));
+	}
 
-		WebElement multiComboSports = driver.findElement(By.id("elementosForm:esportes"));
-		Select comboSport = new Select(multiComboSports);
+	@Test
+	public void validaSeSobrenomeEhIgualSobrenomePassado() {
+		assertTrue(dsl.obterTextoElemento("descSobrenome").endsWith(sobrenome));
+	}
 
-		WebElement buttonRegister = driver.findElement(By.id("elementosForm:cadastrar"));
+	@Test
+	public void validaSeSexoEscolhidoEhIgualAoPassado() {
+		assertTrue(dsl.obterTextoElemento("descSexo").endsWith("Masculino"));
+	}
 
-		inputTextName.sendKeys(nome);
-		inputTextSurname.sendKeys(sobrenome);
-		radioButtonMan.click();
-		checkBoxFavoriteFood.click();
-		comboEducation.selectByVisibleText("Superior");
-		comboSport.selectByVisibleText("Corrida");
-		buttonRegister.click();
+	@Test
+	public void validaSeComidaFavoritaEhIgualAoPassado() {
+		assertTrue(dsl.obterTextoElemento("descComida").endsWith("Pizza"));
+		
+	}
 
-		WebElement textRegistered = driver.findElement(By.id("resultado"));
-		WebElement textName = driver.findElement(By.id("descNome"));
-		WebElement textSurname = driver.findElement(By.id("descSobrenome"));
-		WebElement textSex = driver.findElement(By.id("descSexo"));
-		WebElement textFavoriteFoods = driver.findElement(By.id("descComida"));
-		WebElement textEducationLevel = driver.findElement(By.id("descEscolaridade"));
-		WebElement textSports = driver.findElement(By.id("descEsportes"));
+	@Test
+	public void validaSeEscolaridadeEhIgualAoPassado() {
+		assertTrue(dsl.obterTextoElemento("descEscolaridade").endsWith("superior"));
+	}
 
-		assertTrue(textRegistered.getText().startsWith("Cadastrado!"));
-		assertTrue(textName.getText().endsWith(nome));
-		assertTrue(textSurname.getText().endsWith(sobrenome));
-		assertTrue(textSex.getText().endsWith("Masculino"));
-		assertTrue(textFavoriteFoods.getText().endsWith("Pizza"));
-		assertTrue(textEducationLevel.getText().endsWith("superior"));
-		assertTrue(textSports.getText().endsWith("Corrida"));
+	@Test
+	public void validaSeEsporteEscolhidoEhIgualAoPassado() {
+		assertTrue(dsl.obterTextoElemento("descEsportes").endsWith("Corrida"));
 	}
 
 }
