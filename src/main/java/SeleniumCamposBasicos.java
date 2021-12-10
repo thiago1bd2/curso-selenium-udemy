@@ -12,13 +12,11 @@ import org.openqa.selenium.support.ui.Select;
 
 public class SeleniumCamposBasicos {
 
-	static final String DRIVER_PATH = "/home/monitora/Documents/webdrivers/chromium/chromedriver";
-	static final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html";
+	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
+			+ "/src/main/resources/componentes.html";
 
 	@Test
 	public void deveInteragirComTextField() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -31,8 +29,6 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComTextArea() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -45,8 +41,6 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComRadioButton() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -61,8 +55,6 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComCheckbox() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -77,16 +69,14 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComcombobox() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
 
 		WebElement findElement = webDriver.findElement(By.id("elementosForm:escolaridade"));
 		Select combo = new Select(findElement);
-//		combo.selectByIndex(2);
-//		combo.selectByValue("superior");		
+		// combo.selectByIndex(2);
+		// combo.selectByValue("superior");
 		combo.selectByVisibleText("Especializacao"); // <- preferir essa forma, mais próxima da UX
 
 		assertEquals("Especializacao", combo.getFirstSelectedOption().getText());
@@ -95,9 +85,7 @@ public class SeleniumCamposBasicos {
 	}
 
 	@Test
-	public void deveVerificarOsValoresDisponveiNoCombobox() {		
-				System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
+	public void deveVerificarOsValoresDisponveiNoCombobox() {
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -123,8 +111,6 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoComboboxMultiplo() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -142,8 +128,6 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveClicarNoBotaoEVerificarValor() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
@@ -158,10 +142,8 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveClicarBotaoVoltarEAlterarValor() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
-		
+
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
 
 		WebElement linkVoltar = webDriver.findElement(By.linkText("Voltar"));
@@ -169,24 +151,22 @@ public class SeleniumCamposBasicos {
 
 		WebElement divResultado = webDriver.findElement(By.id("resultado"));
 
-//		Assert.fail(); -> melhor maneira eh add anotation de @ignore
+		// Assert.fail(); -> melhor maneira eh add anotation de @ignore
 		assertEquals("Voltou!", divResultado.getText());
 		webDriver.quit();
 	}
 
 	@Test
 	public void deveBuscarTextosNaPagina() {
-		System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-
 		WebDriver webDriver = new ChromeDriver();
 
 		webDriver.get(CAMPO_TREINAMENTO_HTML);
 
-//		WebElement body = webDriver.findElement(By.tagName("body"));
-//		assertTrue(body.getText().contains("Campo de Treinamento")); -> nao eficiente
-//		assertTrue(webDriver.findElement(By.tagName("h3")).getText()
-//				.contains("Campo de Treinamento"));
-		
+		// WebElement body = webDriver.findElement(By.tagName("body"));
+		// assertTrue(body.getText().contains("Campo de Treinamento")); -> nao eficiente
+		// assertTrue(webDriver.findElement(By.tagName("h3")).getText()
+		// .contains("Campo de Treinamento"));
+
 		assertTrue(webDriver.findElement(By.className("facilAchar")).getText()
 				.contains("Cuidado onde clica, muitas armadilhas..."));
 
