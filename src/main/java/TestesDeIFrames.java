@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -9,28 +11,36 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestesDeIFrames {
 
-	static final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
+	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
+
+	private WebDriver driver;
+
+	@Before
+	public void init() {
+		driver = new ChromeDriver();
+		driver.get(CAMPO_TREINAMENTO_HTML);
+	}
+
+	@After
+	public void finalize() {
+		driver.quit();
+	}
 
 	@Test
 	public void deveInteragirComAlertSimples() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.switchTo().frame("frame1");
-		WebElement buttonFrame = webDriver.findElement(By.id("frameButton"));
+		driver.switchTo().frame("frame1");
+		WebElement buttonFrame = driver.findElement(By.id("frameButton"));
 		buttonFrame.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 		String alertText = alert.getText();
 
 		assertEquals("Frame OK!", alertText);
 
 		alert.accept();
-		webDriver.switchTo().defaultContent();
-		webDriver.findElement(By.id("elementosForm:nome")).sendKeys(alertText);
-
-		webDriver.quit();
+		driver.switchTo().defaultContent();
+		driver.findElement(By.id("elementosForm:nome")).sendKeys(alertText);
 	}
 
 }

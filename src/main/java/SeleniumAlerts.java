@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -12,14 +14,24 @@ public class SeleniumAlerts {
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
+	private WebDriver driver;
+
+	@Before
+	public void init() {
+		driver = new ChromeDriver();
+		driver.get(CAMPO_TREINAMENTO_HTML);
+	}
+	
+	@After
+	public void finalize() {
+		driver.quit();
+	}
+
 	@Test
 	public void deveInteragirComAlertSimples() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement alertButton = webDriver.findElement(By.id("alert"));
+		WebElement alertButton = driver.findElement(By.id("alert"));
 		alertButton.click();
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String text = alert.getText();
 
@@ -27,39 +39,30 @@ public class SeleniumAlerts {
 
 		alert.accept();
 
-		WebElement nomeInputText = webDriver.findElement(By.id("elementosForm:nome"));
+		WebElement nomeInputText = driver.findElement(By.id("elementosForm:nome"));
 		nomeInputText.sendKeys(text);
 
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveInteragirComConfirmAlert() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement confirmButton = webDriver.findElement(By.id("confirm"));
+		WebElement confirmButton = driver.findElement(By.id("confirm"));
 		confirmButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String confirmText = alert.getText();
 
 		assertEquals("Confirm Simples", confirmText);
 
-		webDriver.quit();
-
 	}
 
 	@Test
 	public void deveInteragirComConfirmAlertEConfirmar() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement confirmButton = webDriver.findElement(By.id("confirm"));
+		WebElement confirmButton = driver.findElement(By.id("confirm"));
 		confirmButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		alert.accept();
 
@@ -67,19 +70,14 @@ public class SeleniumAlerts {
 
 		assertEquals("Confirmado", confirmText);
 
-		webDriver.quit();
-
 	}
 
 	@Test
 	public void deveInteragirComConfirmAlertECancelar() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement confirmButton = webDriver.findElement(By.id("confirm"));
+		WebElement confirmButton = driver.findElement(By.id("confirm"));
 		confirmButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		alert.dismiss();
 
@@ -87,36 +85,27 @@ public class SeleniumAlerts {
 
 		assertEquals("Negado", confirmText);
 
-		webDriver.quit();
-
 	}
 
 	@Test
 	public void deveInteragirComAlertPrompt() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		WebElement promptButton = driver.findElement(By.id("prompt"));
 		promptButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String promptQuestion = alert.getText();
 
 		assertEquals("Digite um numero", promptQuestion);
 
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOk() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		WebElement promptButton = driver.findElement(By.id("prompt"));
 		promptButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String number = "10";
 		alert.sendKeys(number);
@@ -126,19 +115,14 @@ public class SeleniumAlerts {
 
 		assertEquals("Era " + number + "?", textValidation);
 
-		webDriver.quit();
-
 	}
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOKAck() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		WebElement promptButton = driver.findElement(By.id("prompt"));
 		promptButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String number = "10";
 		alert.sendKeys(number);
@@ -149,19 +133,14 @@ public class SeleniumAlerts {
 
 		assertEquals(":D", textValidation);
 
-		webDriver.quit();
-
 	}
 
 	@Test
 	public void deveInteragirComAlertPromptNumeroOKNaoAck() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement promptButton = webDriver.findElement(By.id("prompt"));
+		WebElement promptButton = driver.findElement(By.id("prompt"));
 		promptButton.click();
 
-		Alert alert = webDriver.switchTo().alert();
+		Alert alert = driver.switchTo().alert();
 
 		String number = "10";
 		alert.sendKeys(number);
@@ -171,8 +150,6 @@ public class SeleniumAlerts {
 		String textValidation = alert.getText();
 
 		assertEquals(":(", textValidation);
-
-		webDriver.quit();
 
 	}
 

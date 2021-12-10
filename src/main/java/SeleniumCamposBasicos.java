@@ -3,6 +3,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,82 +17,57 @@ public class SeleniumCamposBasicos {
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
+	private WebDriver driver;
+
+	@Before
+	public void init() {
+		driver = new ChromeDriver();
+		driver.get(CAMPO_TREINAMENTO_HTML);
+	}
+
+	@After
+	public void finalize() {
+		driver.quit();
+	}
+
 	@Test
 	public void deveInteragirComTextField() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("elementosForm:nome")).sendKeys("Teste de escrita");
-		assertEquals("Teste de escrita", webDriver.findElement(By.id("elementosForm:nome")).getAttribute("value"));
-
-		webDriver.quit();
+		driver.findElement(By.id("elementosForm:nome")).sendKeys("Teste de escrita");
+		assertEquals("Teste de escrita", driver.findElement(By.id("elementosForm:nome")).getAttribute("value"));
 	}
 
 	@Test
 	public void deveInteragirComTextArea() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Teste de escrita");
-		assertEquals("Teste de escrita", webDriver.findElement(By.id("elementosForm:sugestoes")).getAttribute("value"));
-
-		webDriver.quit();
+		driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Teste de escrita");
+		assertEquals("Teste de escrita", driver.findElement(By.id("elementosForm:sugestoes")).getAttribute("value"));
 	}
 
 	@Test
 	public void deveInteragirComRadioButton() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("elementosForm:sexo:0")).click();
-
-		assertTrue(webDriver.findElement(By.id("elementosForm:sexo:0")).isSelected());
-
-		webDriver.quit();
-
+		driver.findElement(By.id("elementosForm:sexo:0")).click();
+		assertTrue(driver.findElement(By.id("elementosForm:sexo:0")).isSelected());
 	}
 
 	@Test
 	public void deveInteragirComCheckbox() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
-
-		assertTrue(webDriver.findElement(By.id("elementosForm:comidaFavorita:2")).isSelected());
-
-		webDriver.quit();
-
+		driver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
+		assertTrue(driver.findElement(By.id("elementosForm:comidaFavorita:2")).isSelected());
 	}
 
 	@Test
 	public void deveInteragirComcombobox() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement findElement = webDriver.findElement(By.id("elementosForm:escolaridade"));
+		WebElement findElement = driver.findElement(By.id("elementosForm:escolaridade"));
 		Select combo = new Select(findElement);
 		// combo.selectByIndex(2);
 		// combo.selectByValue("superior");
 		combo.selectByVisibleText("Especializacao"); // <- preferir essa forma, mais próxima da UX
 
 		assertEquals("Especializacao", combo.getFirstSelectedOption().getText());
-
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoCombobox() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement element = webDriver.findElement(By.id("elementosForm:escolaridade"));
+		WebElement element = driver.findElement(By.id("elementosForm:escolaridade"));
 		Select combo = new Select(element);
 
 		List<WebElement> options = combo.getOptions();
@@ -105,71 +82,46 @@ public class SeleniumCamposBasicos {
 		}
 
 		assertTrue(assertividade);
-
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoComboboxMultiplo() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement element = webDriver.findElement(By.id("elementosForm:esportes"));
+		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
 		Select combo = new Select(element);
 		combo.selectByVisibleText("Natacao");
 		combo.selectByVisibleText("Corrida");
 		combo.selectByVisibleText("O que eh esporte?");
 
 		assertEquals(3, combo.getAllSelectedOptions().size());
-
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveClicarNoBotaoEVerificarValor() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement botao = webDriver.findElement(By.id("buttonSimple"));
+		WebElement botao = driver.findElement(By.id("buttonSimple"));
 		botao.click();
 
 		assertEquals("Obrigado!", botao.getAttribute("value"));
-
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveClicarBotaoVoltarEAlterarValor() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		WebElement linkVoltar = webDriver.findElement(By.linkText("Voltar"));
+		WebElement linkVoltar = driver.findElement(By.linkText("Voltar"));
 		linkVoltar.click();
 
-		WebElement divResultado = webDriver.findElement(By.id("resultado"));
+		WebElement divResultado = driver.findElement(By.id("resultado"));
 
 		// Assert.fail(); -> melhor maneira eh add anotation de @ignore
 		assertEquals("Voltou!", divResultado.getText());
-		webDriver.quit();
 	}
 
 	@Test
 	public void deveBuscarTextosNaPagina() {
-		WebDriver webDriver = new ChromeDriver();
-
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		// WebElement body = webDriver.findElement(By.tagName("body"));
+		// WebElement body = driver.findElement(By.tagName("body"));
 		// assertTrue(body.getText().contains("Campo de Treinamento")); -> nao eficiente
-		// assertTrue(webDriver.findElement(By.tagName("h3")).getText()
+		// assertTrue(driver.findElement(By.tagName("h3")).getText()
 		// .contains("Campo de Treinamento"));
 
-		assertTrue(webDriver.findElement(By.className("facilAchar")).getText()
+		assertTrue(driver.findElement(By.className("facilAchar")).getText()
 				.contains("Cuidado onde clica, muitas armadilhas..."));
-
-		webDriver.quit();
 	}
 }

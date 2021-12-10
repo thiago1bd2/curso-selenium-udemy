@@ -1,42 +1,50 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestePopups {
-	static final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
+
+	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
+
+	private WebDriver driver;
+
+	@Before
+	public void init() {
+		driver = new ChromeDriver();
+		driver.get(CAMPO_TREINAMENTO_HTML);
+	}
+
+	@After
+	public void finalize() {
+		driver.quit();
+	}
 
 	@Test
 	public void deveInteragirComPopupTitulo() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("buttonPopUpEasy")).click();
-		webDriver.switchTo().window("Popup");
-		webDriver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui");
-		webDriver.close();
-		webDriver.switchTo().window("");
-		webDriver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui 2");
-		webDriver.quit();
+		driver.findElement(By.id("buttonPopUpEasy")).click();
+		driver.switchTo().window("Popup");
+		driver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui");
+		driver.close();
+		driver.switchTo().window("");
+		driver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui 2");
+		driver.quit();
 	}
 
 	@Test
 	public void deveInteragirComPupupSemTitulo() {
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.get(CAMPO_TREINAMENTO_HTML);
-
-		webDriver.findElement(By.id("buttonPopUpEasy")).click();
+		driver.findElement(By.id("buttonPopUpEasy")).click();
 
 		// Uso de WindowHandler para trocar de contexto
-		String idPopupWindow = webDriver.getWindowHandle();
-		String idMainWindow = webDriver.getWindowHandles().toArray()[1].toString();
+		String idPopupWindow = driver.getWindowHandle();
+		String idMainWindow = driver.getWindowHandles().toArray()[1].toString();
 
-		webDriver.switchTo().window(idPopupWindow).findElement(By.tagName("textarea")).sendKeys("Deu certo?");
+		driver.switchTo().window(idPopupWindow).findElement(By.tagName("textarea")).sendKeys("Deu certo?");
 
-		webDriver.switchTo().window(idMainWindow).findElement(By.tagName("textarea")).sendKeys("E agora?");
-
-		webDriver.quit();
+		driver.switchTo().window(idMainWindow).findElement(By.tagName("textarea")).sendKeys("E agora?");
 
 	}
 }
