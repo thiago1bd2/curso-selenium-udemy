@@ -34,46 +34,46 @@ public class SeleniumCamposBasicos {
 
 	@Test
 	public void deveInteragirComTextField() {
-		dsl.escreverTexto("elementosForm:nome", "Teste de escrita");
+		dsl.escreverTextoById("elementosForm:nome", "Teste de escrita");
 		assertEquals("Teste de escrita", dsl.obterValorElementoByID("elementosForm:nome"));
 	}
 
 	@Test
 	public void deveInteragirComTextArea() {
-		dsl.escreverTexto("elementosForm:sugestoes", "Teste de escrita");
+		dsl.escreverTextoById("elementosForm:sugestoes", "Teste de escrita");
 		assertEquals("Teste de escrita", dsl.obterValorElementoByID("elementosForm:sugestoes"));
 	}
 
 	@Test
 	public void deveInteragirComRadioButton() {
 		dsl.clicarElementoByID("elementosForm:sexo:0");		
-		assertTrue(dsl.estaSelecionado("elementosForm:sexo:0"));
+		assertTrue(dsl.isElementoSelecionadoById("elementosForm:sexo:0"));
 	}
 
 	@Test
 	public void deveInteragirComCheckbox() {
 		dsl.clicarElementoByID("elementosForm:comidaFavorita:2");
-		assertTrue(dsl.estaSelecionado("elementosForm:comidaFavorita:2"));
+		assertTrue(dsl.isElementoSelecionadoById("elementosForm:comidaFavorita:2"));
 	}
 
 	@Test
 	public void deveInteragirComcombobox() {
-		dsl.selecionarTextoVisivelCombo("elementosForm:escolaridade", "Especializacao");
-		assertEquals("Especializacao", dsl.obterValorSelecionadoCombo("elementosForm:escolaridade"));
+		dsl.selecionarTextoVisivelComboById("elementosForm:escolaridade", "Especializacao");
+		assertEquals("Especializacao", dsl.obterValorSelecionadoComboById("elementosForm:escolaridade"));
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoCombobox() {
-		assertTrue(dsl.isValorDisponivelCombo("elementosForm:escolaridade", "Mestrado"));
+		assertTrue(dsl.isValorDisponivelComboById("elementosForm:escolaridade", "Mestrado"));
 	}
 
 	@Test
 	public void deveVerificarOsValoresDisponveiNoComboboxMultiplo() {
-		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Natacao");
-		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Corrida");
-		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "O que eh esporte?");
+		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "Natacao");
+		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "Corrida");
+		dsl.selecionarTextoVisivelComboById("elementosForm:esportes", "O que eh esporte?");
 
-		assertEquals(3, dsl.quantidadeValoresSelecionados("elementosForm:esportes"));
+		assertEquals(3, dsl.quantidadeValoresSelecionadosById("elementosForm:esportes"));
 	}
 
 	@Test

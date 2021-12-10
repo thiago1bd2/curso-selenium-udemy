@@ -13,7 +13,7 @@ public class DSL {
 		this.driver = driver;
 	}
 
-	public void escreverTexto(String id, String texto) {
+	public void escreverTextoById(String id, String texto) {
 		driver.findElement(By.id(id)).sendKeys(texto);
 	}
 
@@ -37,23 +37,23 @@ public class DSL {
 		driver.findElement(By.linkText(texto)).click();
 	}
 
-	public boolean estaSelecionado(String id) {
+	public boolean isElementoSelecionadoById(String id) {
 		return driver.findElement(By.id(id)).isSelected();
 	}
 
-	public void selecionarTextoVisivelCombo(String id, String valor) {
+	public void selecionarTextoVisivelComboById(String id, String valor) {
 		WebElement findElement = driver.findElement(By.id(id));
 		Select combo = new Select(findElement);
 		combo.selectByVisibleText(valor);
 	}
 
-	public String obterValorSelecionadoCombo(String id) {
+	public String obterValorSelecionadoComboById(String id) {
 		WebElement findElement = driver.findElement(By.id(id));
 		Select combo = new Select(findElement);
 		return combo.getFirstSelectedOption().getText();
 	}
 
-	public boolean isValorDisponivelCombo(String id, String valor) {
+	public boolean isValorDisponivelComboById(String id, String valor) {
 		WebElement findElement = driver.findElement(By.id(id));
 		Select combo = new Select(findElement);
 		List<WebElement> options = combo.getOptions();
@@ -68,7 +68,7 @@ public class DSL {
 		return false;
 	}
 	
-	public int quantidadeValoresSelecionados(String id) {
+	public int quantidadeValoresSelecionadosById(String id) {
 		WebElement findElement = driver.findElement(By.id(id));
 		Select combo = new Select(findElement);
 
