@@ -4,9 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SeleniumAlerts {
@@ -36,8 +34,7 @@ public class SeleniumAlerts {
 		
 		Alert alert = dsl.mudarFocoAlerta();
 
-		String text = alert.getText();
-
+		String text = dsl.obterTextoAlerta(alert);
 		assertEquals("Alert Simples", text);
 
 		dsl.confirmarAlerta(alert);
@@ -51,7 +48,7 @@ public class SeleniumAlerts {
 
 		Alert alert = dsl.mudarFocoAlerta();
 
-		String confirmText = alert.getText();
+		String confirmText = dsl.obterTextoAlerta(alert);
 
 		assertEquals("Confirm Simples", confirmText);
 
@@ -64,7 +61,7 @@ public class SeleniumAlerts {
 		Alert alert = dsl.mudarFocoAlerta();
 		dsl.confirmarAlerta(alert);
 		
-		String confirmText = alert.getText();
+		String confirmText = dsl.obterTextoAlerta(alert);				
 
 		assertEquals("Confirmado", confirmText);
 
@@ -76,7 +73,7 @@ public class SeleniumAlerts {
 
 		Alert alert = dsl.mudarFocoAlerta();
 		dsl.cancelarAlerta(alert);
-		String confirmText = alert.getText();
+		String confirmText = dsl.obterTextoAlerta(alert);
 
 		assertEquals("Negado", confirmText);
 
@@ -88,7 +85,7 @@ public class SeleniumAlerts {
 
 		Alert alert = dsl.mudarFocoAlerta();
 
-		String promptQuestion = alert.getText();
+		String promptQuestion = dsl.obterTextoAlerta(alert);
 
 		assertEquals("Digite um numero", promptQuestion);
 
@@ -104,7 +101,7 @@ public class SeleniumAlerts {
 		dsl.escreverPrompAlert(alert, number);
 		dsl.confirmarAlerta(alert);
 
-		String textValidation = alert.getText();
+		String textValidation = dsl.obterTextoAlerta(alert);
 
 		assertEquals("Era " + number + "?", textValidation);
 
@@ -121,7 +118,7 @@ public class SeleniumAlerts {
 		dsl.confirmarAlerta(alert);
 		dsl.confirmarAlerta(alert);
 
-		String textValidation = alert.getText();
+		String textValidation = dsl.obterTextoAlerta(alert);
 
 		assertEquals(":D", textValidation);
 
@@ -138,7 +135,7 @@ public class SeleniumAlerts {
 		dsl.confirmarAlerta(alert);
 		dsl.cancelarAlerta(alert);
 
-		String textValidation = alert.getText();
+		String textValidation = dsl.obterTextoAlerta(alert);
 
 		assertEquals(":(", textValidation);
 

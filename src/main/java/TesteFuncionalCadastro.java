@@ -2,16 +2,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
@@ -27,7 +22,7 @@ public class TesteFuncionalCadastro {
 	public void init() {
 		driver = new ChromeDriver();
 		driver.get(CAMPO_TREINAMENTO_HTML);
-		
+
 		dsl = new DSL(driver);
 	}
 
@@ -48,24 +43,17 @@ public class TesteFuncionalCadastro {
 
 	@Test
 	public void deveValidarMensagemDeErroParaNomeVazio() {
-		WebElement inputFormCadastrar = driver.findElement(By.id("elementosForm:cadastrar"));
-		inputFormCadastrar.click();
-		
 		dsl.clicarElemento("elementosForm:cadastrar");
 
 		Alert alert = dsl.mudarFocoAlerta();
 
 		assertEquals("Nome eh obrigatorio", alert.getText());
-
-		dsl.confirmarAlerta(alert);
-
-		assertEquals("", dsl.obterTextoElemento("elementosForm:nome"));
 	}
 
 	@Test
 	public void deveValidarSeSobrenomeVazioAposErroDeSobrenomeVazio() {
 		dsl.escreverTexto("elementosForm:nome", "Nome");
-		
+
 		dsl.clicarElemento("elementosForm:cadastrar");
 
 		Alert alert = dsl.mudarFocoAlerta();
@@ -77,7 +65,7 @@ public class TesteFuncionalCadastro {
 	@Test
 	public void deveValidarMensagemDeErroParaSobrenomeVazio() {
 		dsl.escreverTexto("elementosForm:nome", "Nome");
-		
+
 		dsl.clicarElemento("elementosForm:cadastrar");
 
 		Alert alert = dsl.mudarFocoAlerta();
@@ -89,21 +77,21 @@ public class TesteFuncionalCadastro {
 	public void deveValidarSeSexoNaoSelecionadoAposErroDeSexoNaoSelecionado() {
 		dsl.escreverTexto("elementosForm:nome", "Nome");
 		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
-		
+
 		dsl.clicarElemento("elementosForm:cadastrar");
 
 		Alert alert = dsl.mudarFocoAlerta();
 		alert.accept();
 
-		assertFalse(dsl.isElementoSelecionado("elementosForm:sexo:0")
-				&& dsl.isElementoSelecionado("elementosForm:sexo:1"));
+		assertFalse(
+				dsl.isElementoSelecionado("elementosForm:sexo:0") && dsl.isElementoSelecionado("elementosForm:sexo:1"));
 	}
 
 	@Test
 	public void deveValidarMensagemDeErroParaSexoNaoSelecionado() {
 		dsl.escreverTexto("elementosForm:nome", "Nome");
 		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
-		
+
 		dsl.clicarElemento("elementosForm:cadastrar");
 
 		Alert alert = dsl.mudarFocoAlerta();
@@ -112,7 +100,7 @@ public class TesteFuncionalCadastro {
 	}
 
 	@Test
-	@Ignore
+
 	public void deveValidarMensagemDeErroSeCarnesComVegetariano() {
 		dsl.escreverTexto("elementosForm:nome", "Nome");
 		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
@@ -131,83 +119,64 @@ public class TesteFuncionalCadastro {
 
 	@Test
 	public void deveValidarSeCarnesComVegetarianoAposMensagemErro() {
-		driver.findElement(By.id("elementosForm:nome")).sendKeys("Nome");
-		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Sobrenome");
-		driver.findElement(By.id("elementosForm:sexo:0")).click();
+		dsl.escreverTexto("elementosForm:nome", "Nome");
+		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
+		dsl.clicarElemento("elementosForm:sexo:0");
 
-		WebElement favoriteFoodCarne = driver.findElement(By.id("elementosForm:comidaFavorita:0"));
-		WebElement favoriteFoodFrango = driver.findElement(By.id("elementosForm:comidaFavorita:1"));
-		WebElement favoriteFoodVegetariano = driver.findElement(By.id("elementosForm:comidaFavorita:3"));
+		dsl.clicarElemento("elementosForm:comidaFavorita:0");
+		dsl.clicarElemento("elementosForm:comidaFavorita:1");
+		dsl.clicarElemento("elementosForm:comidaFavorita:3");
 
-		favoriteFoodCarne.click();
-		favoriteFoodFrango.click();
-		favoriteFoodVegetariano.click();
+		dsl.clicarElemento("elementosForm:cadastrar");
 
-		WebElement inputFormCadastrar = driver.findElement(By.id("elementosForm:cadastrar"));
-		inputFormCadastrar.click();
+		Alert alert = dsl.mudarFocoAlerta();
+		dsl.confirmarAlerta(alert);
 
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
-
-		assertTrue((favoriteFoodCarne.isSelected() || favoriteFoodFrango.isSelected())
-				&& favoriteFoodVegetariano.isSelected());
+		assertTrue((dsl.isElementoSelecionado("elementosForm:comidaFavorita:0")
+				|| dsl.isElementoSelecionado("elementosForm:comidaFavorita:1"))
+				&& dsl.isElementoSelecionado("elementosForm:comidaFavorita:3"));
 	}
 
 	@Test
 	public void deveValidarSeOqueEhEsporteMaisOutroEsporteAposMemsagemErro() {
-		driver.findElement(By.id("elementosForm:nome")).sendKeys("Nome");
-		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Sobrenome");
-		driver.findElement(By.id("elementosForm:sexo:0")).click();
-
-		WebElement favoriteSport = driver.findElement(By.id("elementosForm:esportes"));
-		Select fSport = new Select(favoriteSport);
+		dsl.escreverTexto("elementosForm:nome", "Nome");
+		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
+		dsl.clicarElemento("elementosForm:sexo:0");
+		
+		Select fSport = new Select(dsl.obterWebElement("elementosForm:esportes"));
 
 		int i = (int) (Math.random() * (fSport.getOptions().size() - 1));
-
-		fSport.selectByIndex(i);
 		String oQueEhEsporteOption = "O que eh esporte?";
 
-		fSport.selectByVisibleText(oQueEhEsporteOption);
+		dsl.selecionaValorIndex(fSport, i);
+		dsl.selecionarTextoVisivelCombo(fSport, oQueEhEsporteOption);
 
-		WebElement inputFormCadastrar = driver.findElement(By.id("elementosForm:cadastrar"));
-		inputFormCadastrar.click();
+		dsl.clicarElemento("elementosForm:cadastrar");
 
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
+		Alert alert = dsl.mudarFocoAlerta();
+		dsl.confirmarAlerta(alert);
 
-		boolean hasOQueEhEsporte = false;
-
-		List<WebElement> allSelectedOptions = fSport.getAllSelectedOptions();
-
-		for (WebElement webElement : allSelectedOptions) {
-			if (webElement.getText().equals(oQueEhEsporteOption)) {
-				hasOQueEhEsporte = true;
-				break;
-			}
-		}
-
-		assertTrue((allSelectedOptions.size() > 1) && hasOQueEhEsporte);
+		assertTrue((dsl.quantidadeValoresSelecionadosCombo(fSport) > 1) 
+				&& dsl.hasValorSelecionado(fSport, oQueEhEsporteOption));
 	}
 
 	@Test
 	public void deveValidarSeOqueEhEsporteMaisOutroEsporteMemsagemErro() {
-		driver.findElement(By.id("elementosForm:nome")).sendKeys("Nome");
-		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Sobrenome");
-		driver.findElement(By.id("elementosForm:sexo:0")).click();
+		dsl.escreverTexto("elementosForm:nome", "Nome");
+		dsl.escreverTexto("elementosForm:sobrenome", "Sobrenome");
+		dsl.clicarElemento("elementosForm:sexo:0");
+		
+		Select fSport = new Select(dsl.obterWebElement("elementosForm:esportes"));
 
-		WebElement favoriteSport = driver.findElement(By.id("elementosForm:esportes"));
-		Select fSport = new Select(favoriteSport);
-
-		System.out.println(fSport.getOptions().size());
 		int i = (int) (Math.random() * (fSport.getOptions().size() - 1));
+		String oQueEhEsporteOption = "O que eh esporte?";
 
-		fSport.selectByIndex(i);
-		fSport.selectByVisibleText("O que eh esporte?");
+		dsl.selecionaValorIndex(fSport, i);
+		dsl.selecionarTextoVisivelCombo(fSport, oQueEhEsporteOption);
 
-		WebElement inputFormCadastrar = driver.findElement(By.id("elementosForm:cadastrar"));
-		inputFormCadastrar.click();
+		dsl.clicarElemento("elementosForm:cadastrar");
 
-		Alert alert = driver.switchTo().alert();
+		Alert alert = dsl.mudarFocoAlerta();
 		assertEquals("Voce faz esporte ou nao?", alert.getText());
 
 	}

@@ -11,11 +11,13 @@ public class TestePopups {
 			+ "/src/main/resources/componentes.html";
 
 	private WebDriver driver;
+	private DSL dsl;
 
 	@Before
 	public void init() {
 		driver = new ChromeDriver();
 		driver.get(CAMPO_TREINAMENTO_HTML);
+		dsl = new DSL(driver);
 	}
 
 	@After
@@ -25,26 +27,26 @@ public class TestePopups {
 
 	@Test
 	public void deveInteragirComPopupTitulo() {
-		driver.findElement(By.id("buttonPopUpEasy")).click();
-		driver.switchTo().window("Popup");
-		driver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui");
-		driver.close();
-		driver.switchTo().window("");
-		driver.findElement(By.tagName("textarea")).sendKeys("Um texto aqui 2");
-		driver.quit();
+		dsl.clicarElemento("buttonPopUpEasy");
+		dsl.mudarFocoJanela("Popup");
+		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui");
+		dsl.fechar();
+		dsl.mudarFocoJanela("");		
+		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui 2");		
 	}
 
 	@Test
 	public void deveInteragirComPupupSemTitulo() {
-		driver.findElement(By.id("buttonPopUpEasy")).click();
+		dsl.clicarElemento("buttonPopUpEasy");
 
 		// Uso de WindowHandler para trocar de contexto
-		String idPopupWindow = driver.getWindowHandle();
-		String idMainWindow = driver.getWindowHandles().toArray()[1].toString();
+		String idPopupWindow = dsl.getDriver().getWindowHandle();
+		String idMainWindow = dsl.getDriver().getWindowHandles().toArray()[1].toString();
 
-		driver.switchTo().window(idPopupWindow).findElement(By.tagName("textarea")).sendKeys("Deu certo?");
-
-		driver.switchTo().window(idMainWindow).findElement(By.tagName("textarea")).sendKeys("E agora?");
+		dsl.mudarFocoJanela(idPopupWindow);
+		dsl.escreverTexto(By.tagName("textarea"), "Deu certo?");
+		dsl.mudarFocoJanela(idMainWindow);
+		dsl.escreverTexto(By.tagName("textarea"), "E agora?");
 
 	}
 }
