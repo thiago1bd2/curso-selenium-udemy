@@ -12,4 +12,5 @@ Java:
  * OpenJDK 64-Bit Server VM (build 17.0.1+12-Ubuntu-120.04, mixed mode, sharing)
 
 Selenium: 4
+
 JUnit: 4
