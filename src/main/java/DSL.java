@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.Alert;
@@ -17,8 +18,9 @@ public class DSL {
 	public void escreverTexto(String id, String texto) {
 		escreverTexto(By.id(id), texto);
 	}
-	
+
 	public void escreverTexto(By by, String texto) {
+		driver.findElement(by).clear();
 		driver.findElement(by).sendKeys(texto);
 	}
 
@@ -47,29 +49,20 @@ public class DSL {
 	}
 
 	public void selecionarTextoVisivelCombo(String id, String valor) {
-		WebElement findElement = driver.findElement(By.id(id));
-		Select combo = new Select(findElement);
-		selecionarTextoVisivelCombo(combo, valor);
+		
+		new Select(driver.findElement(By.id(id))).selectByVisibleText(valor);
 	}
 
-	public void selecionarTextoVisivelCombo(Select select, String valor) {
-		select.selectByVisibleText(valor);
-	}
-
-	public void selecionaValorIndex(Select select, int index) {
-		select.selectByIndex(index);
+	public void selecionaValorIndex(String id, int index) {
+		((Select) driver.findElement(By.id(id))).selectByIndex(index);
 	}
 
 	public String obterValorSelecionadoCombo(String id) {
-		WebElement findElement = driver.findElement(By.id(id));
-		Select combo = new Select(findElement);
-		return combo.getFirstSelectedOption().getText();
+		return ((Select) driver.findElement(By.id(id))).getFirstSelectedOption().getText();
 	}
 
 	public boolean isValorDisponivelCombo(String id, String valor) {
-		WebElement findElement = driver.findElement(By.id(id));
-		Select combo = new Select(findElement);
-		List<WebElement> options = combo.getOptions();
+		List<WebElement> options = ((Select) driver.findElement(By.id(id))).getOptions();
 
 		for (WebElement option : options) {
 			if (option.getText().equals(valor)) {
@@ -81,11 +74,11 @@ public class DSL {
 		return false;
 	}
 
-	public boolean hasValorSelecionado(Select select, String valor) {
-		List<WebElement> options = select.getOptions();
+	public boolean isValorSelecionado(String id, String valor) {
+		List<String> options = obterValoresSelecionadosCombo(id);
 
-		for (WebElement option : options) {
-			if (option.getText().equals(valor)) {
+		for (String option : options) {
+			if (option.equals(valor)) {
 				return true;
 
 			}
@@ -95,20 +88,42 @@ public class DSL {
 	}
 
 	public int quantidadeValoresSelecionadosCombo(String id) {
-		WebElement findElement = driver.findElement(By.id(id));
-		Select combo = new Select(findElement);
-
-		return quantidadeValoresSelecionadosCombo(combo);
+		return new Select(driver.findElement(By.id(id))).getAllSelectedOptions().size();
 	}
 
-	public int quantidadeValoresSelecionadosCombo(Select select) {
-		return select.getAllSelectedOptions().size();
+	public int quantidadeValoresDisponiveis(String id) {
+		return new Select(driver.findElement(By.id(id))).getOptions().size();
+	}
+
+	public List<String> obterValoresDisponiveisCombo(String id) {
+		List<String> opcoes = new ArrayList<String>();
+		Select options = new Select(driver.findElement(By.id(id)));
+
+		for (WebElement option : options.getOptions()) {
+			opcoes.add(option.getText());
+		}
+		
+		return opcoes;
+
+	}
+	
+	public List<String> obterValoresSelecionadosCombo(String id) {
+		List<String> opcoes = new ArrayList<String>();
+		Select options = new Select(driver.findElement(By.id(id)));
+		
+
+		for (WebElement option : options.getAllSelectedOptions()) {
+			opcoes.add(option.getText());
+		}
+		
+		return opcoes;
+
 	}
 
 	public Alert mudarFocoAlerta() {
 		return driver.switchTo().alert();
 	}
-	
+
 	public void mudarFocoJanela(String title) {
 		driver.switchTo().window(title);
 	}
@@ -124,33 +139,20 @@ public class DSL {
 	public void escreverPrompAlert(Alert alert, String valor) {
 		alert.sendKeys(valor);
 	}
-	
+
 	public String obterTextoAlerta(Alert alert) {
 		return alert.getText();
 	}
 
-	public WebElement obterWebElement(String id) {
-		return obterWebElement(By.id(id));
-	}
-
-	public WebElement obterWebElement(By by) {
-		return driver.findElement(by);
-	}
-	
 	public void mudarFocoFrame(String id) {
 		driver.switchTo().frame(id);
 	}
-	
+
 	public void sairFocoFramce() {
 		driver.switchTo().defaultContent();
 	}
-	
+
 	public void fechar() {
 		driver.close();
 	}
-	
-	public WebDriver getDriver() {
-		return this.driver;
-	}
-
 }

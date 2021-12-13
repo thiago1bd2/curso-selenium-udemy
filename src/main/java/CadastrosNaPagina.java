@@ -13,24 +13,27 @@ public class CadastrosNaPagina {
 
 	private String nome = "Thiago";
 	private String sobrenome = "Ribeiro";
+	private String escolaridade = "Superior";
+	private String esporte = "Corrida";
 
 	private WebDriver driver;
-	private DSL dsl;
+	private CampoTreinamentoPage page;
 
 	@Before
 	public void init() {
 		driver = new ChromeDriver();
 		driver.get(CAMPO_TREINAMENTO_HTML);
+		
+		page = new CampoTreinamentoPage(driver);
 
-		dsl = new DSL(driver);
-
-		dsl.escreverTexto("elementosForm:nome", nome);
-		dsl.escreverTexto("elementosForm:sobrenome", sobrenome);
-		dsl.clicarElemento("elementosForm:sexo:0");
-		dsl.clicarElemento("elementosForm:comidaFavorita:2");
-		dsl.selecionarTextoVisivelCombo("elementosForm:escolaridade", "Superior");
-		dsl.selecionarTextoVisivelCombo("elementosForm:esportes", "Corrida");
-		dsl.clicarElemento("elementosForm:cadastrar");
+		page.setNome(nome);
+		page.setSobrenome(sobrenome);
+		page.setSexoMasculino();
+		page.setComidaFavoritaPizza();
+		page.setEscolaridade(escolaridade);
+		page.setEsporte(esporte);
+		page.cadastrar();
+		
 	}
 
 	@After
@@ -40,39 +43,39 @@ public class CadastrosNaPagina {
 
 	@Test
 	public void validaSeResultadoEstaVisivel() {
-		assertTrue(dsl.obterTextoElemento("resultado").startsWith("Cadastrado!"));
+		assertTrue(page.getResultadoCadastro().startsWith("Cadastrado!"));
 
 	}
 
 	@Test
 	public void validaSeNomeEhIgualNomeRegistrado() {
-		assertTrue(dsl.obterTextoElemento("descNome").endsWith(nome));
+		assertTrue(page.getNomeCadastro().endsWith(nome));
 	}
 
 	@Test
 	public void validaSeSobrenomeEhIgualSobrenomePassado() {
-		assertTrue(dsl.obterTextoElemento("descSobrenome").endsWith(sobrenome));
+		assertTrue(page.getSobrenomeCadastro().endsWith(sobrenome));
 	}
 
 	@Test
 	public void validaSeSexoEscolhidoEhIgualAoPassado() {
-		assertTrue(dsl.obterTextoElemento("descSexo").endsWith("Masculino"));
+		assertTrue(page.getSexoCadastro().endsWith("Masculino"));
 	}
 
 	@Test
 	public void validaSeComidaFavoritaEhIgualAoPassado() {
-		assertTrue(dsl.obterTextoElemento("descComida").endsWith("Pizza"));
+		assertTrue(page.getComidaFavoritaCadastro().endsWith("Pizza"));
 		
 	}
 
 	@Test
 	public void validaSeEscolaridadeEhIgualAoPassado() {
-		assertTrue(dsl.obterTextoElemento("descEscolaridade").endsWith("superior"));
+		assertTrue(page.getEscolaridadeCadastro().endsWith("superior"));
 	}
 
 	@Test
 	public void validaSeEsporteEscolhidoEhIgualAoPassado() {
-		assertTrue(dsl.obterTextoElemento("descEsportes").endsWith("Corrida"));
+		assertTrue(page.getEsporteCadastro().endsWith("Corrida"));
 	}
 
 }
