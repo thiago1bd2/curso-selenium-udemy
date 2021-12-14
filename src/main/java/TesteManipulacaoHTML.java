@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class SeleniumCamposBasicos {
+public class TesteManipulacaoHTML {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";

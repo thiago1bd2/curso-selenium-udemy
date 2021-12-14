@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class TestePopups {
+public class TesteManipulacaoDePopups {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";

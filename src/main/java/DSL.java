@@ -54,15 +54,15 @@ public class DSL {
 	}
 
 	public void selecionaValorIndex(String id, int index) {
-		((Select) driver.findElement(By.id(id))).selectByIndex(index);
+		new Select(driver.findElement(By.id(id))).selectByIndex(index);
 	}
 
 	public String obterValorSelecionadoCombo(String id) {
-		return ((Select) driver.findElement(By.id(id))).getFirstSelectedOption().getText();
+		return new Select(driver.findElement(By.id(id))).getFirstSelectedOption().getText();
 	}
 
 	public boolean isValorDisponivelCombo(String id, String valor) {
-		List<WebElement> options = ((Select) driver.findElement(By.id(id))).getOptions();
+		List<WebElement> options = new Select(driver.findElement(By.id(id))).getOptions();
 
 		for (WebElement option : options) {
 			if (option.getText().equals(valor)) {

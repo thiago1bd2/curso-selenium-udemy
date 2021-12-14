@@ -46,15 +46,6 @@ public class TesteValidacaoCadastro {
 	}
 
 	@Test
-	public void deveValidarMensagemDeErroParaNomeVazio() {
-		dsl.clicarElemento("elementosForm:cadastrar");
-
-		Alert alert = dsl.mudarFocoAlerta();
-
-		assertEquals("Nome eh obrigatorio", alert.getText());
-	}
-
-	@Test
 	public void deveValidarSeSobrenomeVazioAposErroDeSobrenomeVazio() {
 		page.setNome("Nome");
 		page.cadastrar();
@@ -63,16 +54,6 @@ public class TesteValidacaoCadastro {
 		alert.accept();
 
 		assertEquals("", page.getSobrenome());
-	}
-
-	@Test
-	public void deveValidarMensagemDeErroParaSobrenomeVazio() {
-		page.setNome("Nome");
-		page.cadastrar();
-
-		Alert alert = dsl.mudarFocoAlerta();
-
-		assertEquals("Sobrenome eh obrigatorio", alert.getText());
 	}
 
 	@Test
@@ -85,33 +66,6 @@ public class TesteValidacaoCadastro {
 		alert.accept();
 
 		assertFalse(page.isMasculinoMarcado() && page.isFemininoMarcado());
-	}
-
-	@Test
-	public void deveValidarMensagemDeErroParaSexoNaoSelecionado() {
-		page.setNome("Nome");
-		page.setSobrenome("Sobrenome");
-		page.cadastrar();
-
-		Alert alert = dsl.mudarFocoAlerta();
-
-		assertEquals("Sexo eh obrigatorio", alert.getText());
-	}
-
-	@Test
-
-	public void deveValidarMensagemDeErroSeCarnesComVegetariano() {
-		page.setNome("Nome");
-		page.setSobrenome("Sobrenome");
-		page.setSexoFeminino();
-		page.setComidaFavoritaCarne();
-		page.setComidaFavoritaFrango();
-		page.setComidaFavoritaVegetariano();
-		page.cadastrar();
-
-		Alert alert = dsl.mudarFocoAlerta();
-
-		assertEquals("Tem certeza que voce eh vegetariano?", alert.getText());
 	}
 
 	@Test
@@ -147,24 +101,6 @@ public class TesteValidacaoCadastro {
 		dsl.confirmarAlerta(alert);
 
 		assertTrue((page.quantidadeOpcoesEsporteSelecionados() > 1) && page.isEsporteSelecionado(oQueEhEsporteOption));
-
-	}
-
-	@Test
-	public void deveValidarSeOqueEhEsporteMaisOutroEsporteMemsagemErro() {
-		page.setNome("Nome");
-		page.setSobrenome("Sobrenome");
-		page.setSexoFeminino();
-		page.setComidaFavoritaCarne();
-
-		String oQueEhEsporteOption = "O que eh esporte?";
-
-		page.setEsporte("Corrida", oQueEhEsporteOption);
-
-		page.cadastrar();
-
-		Alert alert = dsl.mudarFocoAlerta();
-		assertEquals("Voce faz esporte ou nao?", alert.getText());
 
 	}
 

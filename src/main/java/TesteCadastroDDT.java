@@ -53,16 +53,16 @@ public class TesteCadastroDDT {
 	public void finalize() {
 		driver.quit();
 	}
-	
+
 	@Parameters
 	public static Collection<Object[]> getCollection() {
-		return Arrays.asList(new Object[][] {
-			{"","","",Arrays.asList(),new String[]{},"Nome eh obrigatorio"},
-			{"Nome","","",Arrays.asList(),new String[]{},"Sobrenome eh obrigatorio"},
-			{"Nome","Sobrenome","",Arrays.asList(),new String[]{},"Sexo eh obrigatorio"},
-			{"Nome","Sobrenome","Masculino",Arrays.asList("Carne","Vegetariano"),new String[]{},"Tem certeza que voce eh vegetariano?"},
-			{"Nome","Sobrenome","Masculino",Arrays.asList("Carne"),new String[]{"Corrida","O que eh esporte?"},"Voce faz esporte ou nao?"},
-		});
+		return Arrays.asList(new Object[][] { { "", "", "", Arrays.asList(), new String[] {}, "Nome eh obrigatorio" },
+				{ "Nome", "", "", Arrays.asList(), new String[] {}, "Sobrenome eh obrigatorio" },
+				{ "Nome", "Sobrenome", "", Arrays.asList(), new String[] {}, "Sexo eh obrigatorio" },
+				{ "Nome", "Sobrenome", "Masculino", Arrays.asList("Carne", "Vegetariano"), new String[] {},
+						"Tem certeza que voce eh vegetariano?" },
+				{ "Nome", "Sobrenome", "Masculino", Arrays.asList("Carne"),
+						new String[] { "Corrida", "O que eh esporte?" }, "Voce faz esporte ou nao?" }, });
 	}
 
 	@Test

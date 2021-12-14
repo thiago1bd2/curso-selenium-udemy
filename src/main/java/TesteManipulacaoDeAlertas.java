@@ -7,7 +7,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class SeleniumAlerts {
+public class TesteManipulacaoDeAlertas {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
