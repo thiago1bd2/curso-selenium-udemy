@@ -27,7 +27,7 @@ public class TestesManipulacaoDeFrames {
 
 	@After
 	public void finalize() {
-//		driver.quit();
+		driver.quit();
 	}
 
 	@Test
