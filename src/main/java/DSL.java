@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -148,11 +149,16 @@ public class DSL {
 		driver.switchTo().frame(id);
 	}
 
-	public void sairFocoFramce() {
+	public void sairFocoFrame() {
 		driver.switchTo().defaultContent();
 	}
 
 	public void fechar() {
 		driver.close();
+	}
+	
+	public Object executarJS(String cmd, Object...objects) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		return js.executeScript(cmd, objects);
 	}
 }

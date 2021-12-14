@@ -4,8 +4,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class TestesManipulacaoDeFrames {
 
@@ -24,11 +27,11 @@ public class TestesManipulacaoDeFrames {
 
 	@After
 	public void finalize() {
-		driver.quit();
+//		driver.quit();
 	}
 
 	@Test
-	public void deveInteragirComAlertSimples() {
+	public void deveInteragirComFrame() {
 		dsl.mudarFocoFrame("frame1");
 		dsl.clicarElemento("frameButton");
 
@@ -38,8 +41,24 @@ public class TestesManipulacaoDeFrames {
 		assertEquals("Frame OK!", alertText);
 
 		dsl.confirmarAlerta(alert);
-		dsl.sairFocoFramce();
-		dsl.escreverTexto("elementosForm:nome",alertText);
+		dsl.sairFocoFrame();
+		dsl.escreverTexto("elementosForm:nome", alertText);
+	}
+
+	@Test
+	public void deveInteragirComFrameEscondido() {
+		WebElement e = driver.findElement(By.id("frame2"));
+
+		/** utilizando o proprio Selenium **/
+		Actions actionProvider = new Actions(driver);
+		// Performs mouse move action onto the element
+//		actionProvider.moveToElement(e).build().perform();
+		
+		dsl.sairFocoFrame();
+		
+		/** utilizando o proprio JS **/
+//		e = driver.findElement(By.id("frame1"));
+		dsl.executarJS("window.scrollBy(0, arguments[0])", e.getLocation().y);
 	}
 
 }

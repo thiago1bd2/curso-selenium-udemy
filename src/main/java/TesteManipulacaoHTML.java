@@ -5,7 +5,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TesteManipulacaoHTML {
@@ -88,5 +90,13 @@ public class TesteManipulacaoHTML {
 	public void deveBuscarTextosNaPagina() {
 		assertTrue((dsl.obterTextoElemento(By.className("facilAchar")))
 				.contains("Cuidado onde clica, muitas armadilhas..."));
+	}
+	
+	@Test
+	public void manipulacaoComJavaScript() {
+		dsl.executarJS("document.getElementById('elementosForm:nome').value = 'Nome'");
+		dsl.executarJS("document.getElementById('elementosForm:sobrenome').type = 'radio'");
+		WebElement element = driver.findElement(By.id("elementosForm:nome"));
+		dsl.executarJS("arguments[0].style.border = arguments[1]", element, "solid 4px red");
 	}
 }
