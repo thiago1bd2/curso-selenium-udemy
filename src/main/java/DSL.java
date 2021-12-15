@@ -46,16 +46,23 @@ public class DSL {
 	}
 
 	public boolean isElementoSelecionado(String id) {
-		return driver.findElement(By.id(id)).isSelected();
+		return isElementoSelecionado(By.id(id));
+	}
+	
+	public boolean isElementoSelecionado(By by) {
+		return driver.findElement(by).isSelected();
 	}
 
 	public void selecionarTextoVisivelCombo(String id, String valor) {
-
-		new Select(driver.findElement(By.id(id))).selectByVisibleText(valor);
+		selecionarTextoVisivelCombo(By.id(id), valor);
+	}
+	
+	public void selecionarTextoVisivelCombo(By by, String valor) {
+		new Select(driver.findElement(by)).selectByVisibleText(valor);
 	}
 
 	public void selecionaValorIndex(String id, int index) {
-		new Select(driver.findElement(By.id(id))).selectByIndex(index);
+		new Select(driver.findElement(By.id(id))).selectByIndex(index);		
 	}
 
 	public String obterValorSelecionadoCombo(String id) {
