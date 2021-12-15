@@ -43,39 +43,39 @@ public class TesteResultadoCadastro {
 
 	@Test
 	public void validaSeResultadoEstaVisivel() {
-		assertTrue(page.getResultadoCadastro().startsWith("Cadastrado!"));
+		assertTrue(page.getResultadoCadastro().equals("Cadastrado!"));
 
 	}
 
 	@Test
 	public void validaSeNomeEhIgualNomeRegistrado() {
-		assertTrue(page.getNomeCadastro().endsWith(nome));
+		assertTrue(page.getNomeCadastro().equals(nome));
 	}
 
 	@Test
 	public void validaSeSobrenomeEhIgualSobrenomePassado() {
-		assertTrue(page.getSobrenomeCadastro().endsWith(sobrenome));
+		assertTrue(page.getSobrenomeCadastro().equals(sobrenome));
 	}
 
 	@Test
 	public void validaSeSexoEscolhidoEhIgualAoPassado() {
-		assertTrue(page.getSexoCadastro().endsWith("Masculino"));
+		assertTrue(page.getSexoCadastro().equals("Masculino"));
 	}
 
 	@Test
 	public void validaSeComidaFavoritaEhIgualAoPassado() {
-		assertTrue(page.getComidaFavoritaCadastro().endsWith("Pizza"));
+		assertTrue(page.getComidaFavoritaCadastro().equals("Pizza"));
 		
 	}
 
 	@Test
 	public void validaSeEscolaridadeEhIgualAoPassado() {
-		assertTrue(page.getEscolaridadeCadastro().endsWith("superior"));
+		assertTrue(page.getEscolaridadeCadastro().equals("superior"));
 	}
 
 	@Test
 	public void validaSeEsporteEscolhidoEhIgualAoPassado() {
-		assertTrue(page.getEsporteCadastro().endsWith("Corrida"));
+		assertTrue(page.getEsporteCadastro().equals("Corrida"));
 	}
 
 }
