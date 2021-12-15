@@ -27,7 +27,7 @@ public class TesteManipulacaoHTML {
 
 	@After
 	public void finalize() {
-		driver.quit();
+//		driver.quit();
 	}
 
 	@Test
@@ -98,5 +98,12 @@ public class TesteManipulacaoHTML {
 		dsl.executarJS("document.getElementById('elementosForm:sobrenome').type = 'radio'");
 		WebElement element = driver.findElement(By.id("elementosForm:nome"));
 		dsl.executarJS("arguments[0].style.border = arguments[1]", element, "solid 4px red");
+	}
+	
+	@Test
+	public void clicarBotaoTabela() {
+		//clica na primeira ocorrencia dado o valor
+		dsl.clicarBotaoTabela("Escolaridade", "Superior", "Botao", "elementosForm:tableUsuarios");
+		
 	}
 }

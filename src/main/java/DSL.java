@@ -50,7 +50,7 @@ public class DSL {
 	}
 
 	public void selecionarTextoVisivelCombo(String id, String valor) {
-		
+
 		new Select(driver.findElement(By.id(id))).selectByVisibleText(valor);
 	}
 
@@ -103,20 +103,19 @@ public class DSL {
 		for (WebElement option : options.getOptions()) {
 			opcoes.add(option.getText());
 		}
-		
+
 		return opcoes;
 
 	}
-	
+
 	public List<String> obterValoresSelecionadosCombo(String id) {
 		List<String> opcoes = new ArrayList<String>();
 		Select options = new Select(driver.findElement(By.id(id)));
-		
 
 		for (WebElement option : options.getAllSelectedOptions()) {
 			opcoes.add(option.getText());
 		}
-		
+
 		return opcoes;
 
 	}
@@ -156,9 +155,40 @@ public class DSL {
 	public void fechar() {
 		driver.close();
 	}
-	
-	public Object executarJS(String cmd, Object...objects) {
+
+	public Object executarJS(String cmd, Object... objects) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return js.executeScript(cmd, objects);
 	}
+
+	public void clicarBotaoTabela(String coluna, String valor, String colunaBotao, String idTabela) {
+		WebElement tabela = driver.findElement(By.xpath("//table[@id='"+idTabela+"']"));
+		int idColuna = indexOfColuna(coluna, tabela);		
+		int idLinha = indexOfLinha(valor, tabela, idColuna);
+		int idColunaBotao = indexOfColuna(colunaBotao, tabela);
+		WebElement botao = tabela.findElement(By.xpath("./tbody/tr["+idLinha+"]/td["+idColunaBotao+"]/input"));
+		botao.click();
+	}
+
+	private int indexOfColuna(String nomeColuna, WebElement tabela) {
+		List<WebElement> colunas = tabela.findElements(By.xpath(".//th"));
+
+		for (WebElement coluna : colunas) {
+			if (coluna.getText().equals(nomeColuna))
+				return colunas.indexOf(coluna) + 1;
+		}
+
+		return -1;
+	}
+	
+	private int indexOfLinha(String valor, WebElement tabela, int indexColuna) {
+		List<WebElement> linhas = tabela.findElements(By.xpath("./tbody/tr/td["+indexColuna+"]"));
+
+		for (WebElement linha : linhas) {
+			if (linha.getText().equals(valor))
+				return linhas.indexOf(linha) + 1;
+		}
+		return -1;
+	}
+
 }
