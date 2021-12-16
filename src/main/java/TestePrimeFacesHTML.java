@@ -26,7 +26,8 @@ public class TestePrimeFacesHTML {
 //		driver.quit();
 	}
 	
-	@Test	
+	@Test
+	@Ignore
 	public void clicarRadioPrime() {
 		driver.get("https://www.primefaces.org/showcase/ui/input/oneRadio.xhtml");
 		dsl.clicarElemento(By.xpath("//input[@id='j_idt305:console:1']/../..//span"));
@@ -34,13 +35,12 @@ public class TestePrimeFacesHTML {
 	}
 	
 	
-	@Test
-	@Ignore
+	@Test	
 	public void clicarEmComboPrime() {
 		driver.get("https://www.primefaces.org/showcase/ui/input/oneMenu.xhtml");
 		dsl.clicarElemento(By.xpath("//label[.='Basic']/..//span"));
-//		dsl.clicarElemento(By.xpath("//*[@id='j_idt304:option_input']/option[@value='Option2']"));
-		dsl.selecionarTextoVisivelCombo("j_idt304:option_input", "Option2");
+		dsl.clicarElemento(By.xpath("//*[@id='j_idt304:option_items']//li[.='Option2']"));
+//		dsl.selecionarTextoVisivelCombo("j_idt304:option_input", "Option2");
 		//$x("//*[@id='j_idt304:option_input']/option[@value='Option2']")
 		
 //		WebElement e = driver.findElement(By.xpath("//label[.='Basic']/..//option[@value='Option2']"));
