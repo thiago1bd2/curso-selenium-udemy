@@ -1,3 +1,5 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -5,28 +7,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import br.com.thiago1bd2.core.DSL;
 
 public class TesteManipulacaoHTML {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
-	private WebDriver driver;
 	private DSL dsl;
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
-		dsl = new DSL(driver);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
+		dsl = new DSL();
 	}
 
 	@After
 	public void finalize() {
-//		driver.quit();
+		killDriver();
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class TesteManipulacaoHTML {
 	public void manipulacaoComJavaScript() {
 		dsl.executarJS("document.getElementById('elementosForm:nome').value = 'Nome'");
 		dsl.executarJS("document.getElementById('elementosForm:sobrenome').type = 'radio'");
-		WebElement element = driver.findElement(By.id("elementosForm:nome"));
+		WebElement element = getDriver().findElement(By.id("elementosForm:nome"));
 		dsl.executarJS("arguments[0].style.border = arguments[1]", element, "solid 4px red");
 	}
 	

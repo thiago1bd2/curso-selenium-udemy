@@ -1,3 +1,5 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -6,32 +8,28 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import br.com.thiago1bd2.core.DSL;
 
 public class TesteValidacaoCadastro {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
-	private WebDriver driver;
 	private CampoTreinamentoPage page;
 	private DSL dsl;
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
-
-		page = new CampoTreinamentoPage(driver);
-
-		dsl = new DSL(driver);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
+		page = new CampoTreinamentoPage();
+		dsl = new DSL();
 
 	}
 
 	@After
 	public void finalize() {
-		driver.quit();
+		killDriver();
 	}
 
 	@Test

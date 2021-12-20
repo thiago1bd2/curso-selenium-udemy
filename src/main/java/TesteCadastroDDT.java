@@ -1,3 +1,5 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -12,8 +14,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import br.com.thiago1bd2.core.DSL;
 
 @RunWith(Parameterized.class)
 public class TesteCadastroDDT {
@@ -21,7 +23,6 @@ public class TesteCadastroDDT {
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
-	private WebDriver driver;
 	private CampoTreinamentoPage page;
 	private DSL dsl;
 
@@ -40,18 +41,15 @@ public class TesteCadastroDDT {
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
-
-		page = new CampoTreinamentoPage(driver);
-
-		dsl = new DSL(driver);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
+		page = new CampoTreinamentoPage();
+		dsl = new DSL();
 
 	}
 
 	@After
 	public void finalize() {
-		driver.quit();
+		killDriver();
 	}
 
 	@Parameters

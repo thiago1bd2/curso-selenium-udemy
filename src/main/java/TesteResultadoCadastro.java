@@ -1,10 +1,10 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TesteResultadoCadastro {
 
@@ -16,16 +16,13 @@ public class TesteResultadoCadastro {
 	private String escolaridade = "Superior";
 	private String esporte = "Corrida";
 
-	private WebDriver driver;
 	private CampoTreinamentoPage page;
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
 		
-		page = new CampoTreinamentoPage(driver);
-
+		page = new CampoTreinamentoPage();
 		page.setNome(nome);
 		page.setSobrenome(sobrenome);
 		page.setSexoMasculino();
@@ -38,7 +35,7 @@ public class TesteResultadoCadastro {
 
 	@After
 	public void finalize() {
-		driver.quit();
+		killDriver();
 	}
 
 	@Test

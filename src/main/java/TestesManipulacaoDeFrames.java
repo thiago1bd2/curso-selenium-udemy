@@ -1,3 +1,5 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
@@ -5,29 +7,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
+
+import br.com.thiago1bd2.core.DSL;
 
 public class TestesManipulacaoDeFrames {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
-	private WebDriver driver;
 	private DSL dsl;
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
-		dsl = new DSL(driver);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
+		dsl = new DSL();
 	}
 
 	@After
 	public void finalize() {
-		driver.quit();
+		killDriver();
 	}
 
 	@Test
@@ -47,15 +46,15 @@ public class TestesManipulacaoDeFrames {
 
 	@Test
 	public void deveInteragirComFrameEscondido() {
-		WebElement e = driver.findElement(By.id("frame2"));
+		WebElement e = getDriver().findElement(By.id("frame2"));
 
 		/** utilizando o proprio Selenium **/
-		Actions actionProvider = new Actions(driver);
+//		Actions actionProvider = new Actions(driver);
 		// Performs mouse move action onto the element
 //		actionProvider.moveToElement(e).build().perform();
-		
+
 		dsl.sairFocoFrame();
-		
+
 		/** utilizando o proprio JS **/
 //		e = driver.findElement(By.id("frame1"));
 		dsl.executarJS("window.scrollBy(0, arguments[0])", e.getLocation().y);

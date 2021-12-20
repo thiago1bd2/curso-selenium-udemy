@@ -1,29 +1,30 @@
+import static br.com.thiago1bd2.core.DriverFactory.getDriver;
+import static br.com.thiago1bd2.core.DriverFactory.killDriver;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import br.com.thiago1bd2.core.DSL;
 
 public class TesteManipulacaoDePopups {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
 
-	private WebDriver driver;
 	private DSL dsl;
 
 	@Before
 	public void init() {
-		driver = new ChromeDriver();
-		driver.get(CAMPO_TREINAMENTO_HTML);
-		dsl = new DSL(driver);
+		getDriver().get(CAMPO_TREINAMENTO_HTML);
+		dsl = new DSL();
 	}
 
 	@After
 	public void finalize() {
-		driver.quit();
+		killDriver();
 	}
 
 	@Test
@@ -31,9 +32,9 @@ public class TesteManipulacaoDePopups {
 		dsl.clicarElemento("buttonPopUpEasy");
 		dsl.mudarFocoJanela("Popup");
 		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui");
-		dsl.fechar();
-		dsl.mudarFocoJanela("");		
-		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui 2");		
+//		dsl.fechar();
+		dsl.mudarFocoJanela("");
+		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui 2");
 	}
 
 	@Test
