@@ -34,7 +34,8 @@ public class TesteAjax {
 		dsl.escreverTexto("j_idt304:name", "Nome-nome");
 		dsl.clicarElemento("j_idt304:j_idt308");
 		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.textToBe(By.id("j_idt304:display"), "Nome-nome"));
+//		wait.until(ExpectedConditions.textToBe(By.id("j_idt304:display"), "Nome-nome"));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("j_idt350_start")));
 		assertEquals(dsl.obterValorElemento("j_idt304:name"), dsl.obterTextoElemento("j_idt304:display"));
 		
 	}
