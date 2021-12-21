@@ -1,4 +1,5 @@
 package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static org.junit.Assert.assertTrue;
 
@@ -23,7 +24,7 @@ public class TesteResultadoCadastro extends BaseTest {
 	@Before
 	public void init() {
 		getDriver().get(CAMPO_TREINAMENTO_HTML);
-		
+
 		page = new CampoTreinamentoPage();
 		page.setNome(nome);
 		page.setSobrenome(sobrenome);
@@ -32,7 +33,7 @@ public class TesteResultadoCadastro extends BaseTest {
 		page.setEscolaridade(escolaridade);
 		page.setEsporte(esporte);
 		page.cadastrar();
-		
+
 	}
 
 	@Test
@@ -59,7 +60,7 @@ public class TesteResultadoCadastro extends BaseTest {
 	@Test
 	public void validaSeComidaFavoritaEhIgualAoPassado() {
 		assertTrue(page.getComidaFavoritaCadastro().equals("Pizza"));
-		
+
 	}
 
 	@Test

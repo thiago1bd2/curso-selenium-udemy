@@ -4,7 +4,6 @@ import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -38,12 +37,12 @@ public class TesteManipulacaoDePopups {
 		dsl.escreverTexto(By.tagName("textarea"), "Um texto aqui 2");
 	}
 
-	@Test
-	@Ignore
-	public void deveInteragirComPupupSemTitulo() {
-		dsl.clicarElemento("buttonPopUpEasy");
-
-		// Uso de WindowHandler para trocar de contexto
+//	@Test
+//	@Ignore
+//	public void deveInteragirComPupupSemTitulo() {
+//		dsl.clicarElemento("buttonPopUpEasy");
+//
+//		Uso de WindowHandler para trocar de contexto
 //		String idPopupWindow = dsl.getDriver().getWindowHandle();
 //		String idMainWindow = dsl.getDriver().getWindowHandles().toArray()[1].toString();
 //
@@ -51,6 +50,6 @@ public class TesteManipulacaoDePopups {
 //		dsl.escreverTexto(By.tagName("textarea"), "Deu certo?");
 //		dsl.mudarFocoJanela(idMainWindow);
 //		dsl.escreverTexto(By.tagName("textarea"), "E agora?");
-
-	}
+//
+//	}
 }
