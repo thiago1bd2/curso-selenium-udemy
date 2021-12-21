@@ -1,3 +1,5 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
@@ -5,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -34,12 +35,10 @@ public class TestesManipulacaoDeFrames {
 		dsl.mudarFocoFrame("frame1");
 		dsl.clicarElemento("frameButton");
 
-		Alert alert = dsl.mudarFocoAlerta();
-		String alertText = dsl.obterTextoAlerta(alert);
+		String alertText = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Frame OK!", alertText);
 
-		dsl.confirmarAlerta(alert);
 		dsl.sairFocoFrame();
 		dsl.escreverTexto("elementosForm:nome", alertText);
 	}

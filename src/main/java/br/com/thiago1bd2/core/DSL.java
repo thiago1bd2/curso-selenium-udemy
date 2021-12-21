@@ -1,4 +1,5 @@
 package br.com.thiago1bd2.core;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 
 import java.util.ArrayList;
@@ -7,7 +8,6 @@ import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -45,7 +45,7 @@ public class DSL {
 	public boolean isElementoSelecionado(String id) {
 		return isElementoSelecionado(By.id(id));
 	}
-	
+
 	public boolean isElementoSelecionado(By by) {
 		return getDriver().findElement(by).isSelected();
 	}
@@ -53,13 +53,13 @@ public class DSL {
 	public void selecionarTextoVisivelCombo(String id, String valor) {
 		selecionarTextoVisivelCombo(By.id(id), valor);
 	}
-	
+
 	public void selecionarTextoVisivelCombo(By by, String valor) {
 		new Select(getDriver().findElement(by)).selectByVisibleText(valor);
 	}
 
 	public void selecionaValorIndex(String id, int index) {
-		new Select(getDriver().findElement(By.id(id))).selectByIndex(index);		
+		new Select(getDriver().findElement(By.id(id))).selectByIndex(index);
 	}
 
 	public String obterValorSelecionadoCombo(String id) {
@@ -124,28 +124,27 @@ public class DSL {
 
 	}
 
-	public Alert mudarFocoAlerta() {
-		return getDriver().switchTo().alert();
-	}
-
 	public void mudarFocoJanela(String title) {
 		getDriver().switchTo().window(title);
 	}
 
-	public void confirmarAlerta(Alert alert) {
-		alert.accept();
-	}
-
-	public void cancelarAlerta(Alert alert) {
-		alert.dismiss();
-	}
-
-	public void escreverPrompAlert(Alert alert, String valor) {
+	public void escreverPrompAlert(String valor) {
+		Alert alert = getDriver().switchTo().alert();
 		alert.sendKeys(valor);
 	}
 
-	public String obterTextoAlerta(Alert alert) {
-		return alert.getText();
+	public String obterTextoAlertaEConfirma() {
+		Alert alert = getDriver().switchTo().alert();
+		String text = alert.getText();
+		alert.accept();
+		return text;
+	}
+
+	public String obterTextoAlertaECancela() {
+		Alert alert = getDriver().switchTo().alert();
+		String text = alert.getText();
+		alert.dismiss();
+		return text;
 	}
 
 	public void mudarFocoFrame(String id) {
@@ -156,21 +155,17 @@ public class DSL {
 		getDriver().switchTo().defaultContent();
 	}
 
-//	public void fechar() {
-//		getDriver().close();
-//	}
-
 	public Object executarJS(String cmd, Object... objects) {
 		JavascriptExecutor js = (JavascriptExecutor) getDriver();
 		return js.executeScript(cmd, objects);
 	}
 
 	public void clicarBotaoTabela(String coluna, String valor, String colunaBotao, String idTabela) {
-		WebElement tabela = getDriver().findElement(By.xpath("//table[@id='"+idTabela+"']"));
-		int idColuna = indexOfColuna(coluna, tabela);		
+		WebElement tabela = getDriver().findElement(By.xpath("//table[@id='" + idTabela + "']"));
+		int idColuna = indexOfColuna(coluna, tabela);
 		int idLinha = indexOfLinha(valor, tabela, idColuna);
 		int idColunaBotao = indexOfColuna(colunaBotao, tabela);
-		WebElement botao = tabela.findElement(By.xpath("./tbody/tr["+idLinha+"]/td["+idColunaBotao+"]/input"));
+		WebElement botao = tabela.findElement(By.xpath("./tbody/tr[" + idLinha + "]/td[" + idColunaBotao + "]/input"));
 		botao.click();
 	}
 
@@ -184,9 +179,9 @@ public class DSL {
 
 		return -1;
 	}
-	
+
 	private int indexOfLinha(String valor, WebElement tabela, int indexColuna) {
-		List<WebElement> linhas = tabela.findElements(By.xpath("./tbody/tr/td["+indexColuna+"]"));
+		List<WebElement> linhas = tabela.findElements(By.xpath("./tbody/tr/td[" + indexColuna + "]"));
 
 		for (WebElement linha : linhas) {
 			if (linha.getText().equals(valor))

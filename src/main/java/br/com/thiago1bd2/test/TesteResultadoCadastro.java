@@ -1,12 +1,14 @@
+package br.com.thiago1bd2.test;
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
-import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TesteResultadoCadastro {
+import br.com.thiago1bd2.core.BaseTest;
+import br.com.thiago1bd2.page.CampoTreinamentoPage;
+
+public class TesteResultadoCadastro extends BaseTest {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
@@ -31,11 +33,6 @@ public class TesteResultadoCadastro {
 		page.setEsporte(esporte);
 		page.cadastrar();
 		
-	}
-
-	@After
-	public void finalize() {
-		killDriver();
 	}
 
 	@Test

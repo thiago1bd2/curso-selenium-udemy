@@ -1,24 +1,25 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
-import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
-import org.openqa.selenium.Alert;
 
+import br.com.thiago1bd2.core.BaseTest;
 import br.com.thiago1bd2.core.DSL;
+import br.com.thiago1bd2.page.CampoTreinamentoPage;
 
 @RunWith(Parameterized.class)
-public class TesteCadastroDDT {
+public class TesteCadastroDDT extends BaseTest {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
@@ -45,11 +46,6 @@ public class TesteCadastroDDT {
 		page = new CampoTreinamentoPage();
 		dsl = new DSL();
 
-	}
-
-	@After
-	public void finalize() {
-		killDriver();
 	}
 
 	@Parameters
@@ -88,9 +84,9 @@ public class TesteCadastroDDT {
 
 		page.setEsporte(esportes);
 		page.cadastrar();
-		Alert alert = dsl.mudarFocoAlerta();
 
-		assertEquals(msg, alert.getText());
+		String msg2 = dsl.obterTextoAlertaEConfirma();
+		assertEquals(msg, msg2);
 
 	}
 }

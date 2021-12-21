@@ -1,3 +1,5 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 

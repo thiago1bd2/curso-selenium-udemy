@@ -1,3 +1,4 @@
+package br.com.thiago1bd2.test;
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 
@@ -21,7 +22,7 @@ public class TesteManipulacaoDePopups {
 		getDriver().get(CAMPO_TREINAMENTO_HTML);
 		dsl = new DSL();
 	}
-
+	
 	@After
 	public void finalize() {
 		killDriver();

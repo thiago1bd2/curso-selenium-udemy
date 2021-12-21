@@ -1,3 +1,5 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
@@ -5,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 
 import br.com.thiago1bd2.core.DSL;
 
@@ -30,13 +31,10 @@ public class TesteManipulacaoDeAlertas {
 	@Test
 	public void deveInteragirComAlertSimples() {
 		dsl.clicarElemento("alert");
-		
-		Alert alert = dsl.mudarFocoAlerta();
 
-		String text = dsl.obterTextoAlerta(alert);
+		String text = dsl.obterTextoAlertaEConfirma();
 		assertEquals("Alert Simples", text);
 
-		dsl.confirmarAlerta(alert);
 		dsl.escreverTexto("elementosForm:nome", text);
 
 	}
@@ -45,9 +43,7 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComConfirmAlert() {
 		dsl.clicarElemento("confirm");
 
-		Alert alert = dsl.mudarFocoAlerta();
-
-		String confirmText = dsl.obterTextoAlerta(alert);
+		String confirmText = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Confirm Simples", confirmText);
 
@@ -57,10 +53,8 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComConfirmAlertEConfirmar() {
 		dsl.clicarElemento("confirm");
 
-		Alert alert = dsl.mudarFocoAlerta();
-		dsl.confirmarAlerta(alert);
-		
-		String confirmText = dsl.obterTextoAlerta(alert);				
+		dsl.obterTextoAlertaEConfirma();
+		String confirmText = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Confirmado", confirmText);
 
@@ -70,9 +64,8 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComConfirmAlertECancelar() {
 		dsl.clicarElemento("confirm");
 
-		Alert alert = dsl.mudarFocoAlerta();
-		dsl.cancelarAlerta(alert);
-		String confirmText = dsl.obterTextoAlerta(alert);
+		dsl.obterTextoAlertaECancela();
+		String confirmText = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Negado", confirmText);
 
@@ -82,9 +75,7 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComAlertPrompt() {
 		dsl.clicarElemento("prompt");
 
-		Alert alert = dsl.mudarFocoAlerta();
-
-		String promptQuestion = dsl.obterTextoAlerta(alert);
+		String promptQuestion = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Digite um numero", promptQuestion);
 
@@ -94,13 +85,11 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComAlertPromptNumeroOk() {
 		dsl.clicarElemento("prompt");
 
-		Alert alert = dsl.mudarFocoAlerta();
-
 		String number = "10";
-		dsl.escreverPrompAlert(alert, number);
-		dsl.confirmarAlerta(alert);
+		dsl.escreverPrompAlert(number);
+		dsl.obterTextoAlertaEConfirma();
 
-		String textValidation = dsl.obterTextoAlerta(alert);
+		String textValidation = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals("Era " + number + "?", textValidation);
 
@@ -110,14 +99,12 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComAlertPromptNumeroOKAck() {
 		dsl.clicarElemento("prompt");
 
-		Alert alert = dsl.mudarFocoAlerta();
-
 		String number = "10";
-		dsl.escreverPrompAlert(alert, number);
-		dsl.confirmarAlerta(alert);
-		dsl.confirmarAlerta(alert);
+		dsl.escreverPrompAlert(number);
+		dsl.obterTextoAlertaEConfirma();
+		dsl.obterTextoAlertaEConfirma();
 
-		String textValidation = dsl.obterTextoAlerta(alert);
+		String textValidation = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals(":D", textValidation);
 
@@ -127,14 +114,12 @@ public class TesteManipulacaoDeAlertas {
 	public void deveInteragirComAlertPromptNumeroOKNaoAck() {
 		dsl.clicarElemento("prompt");
 
-		Alert alert = dsl.mudarFocoAlerta();
-
 		String number = "10";
-		dsl.escreverPrompAlert(alert, number);
-		dsl.confirmarAlerta(alert);
-		dsl.cancelarAlerta(alert);
+		dsl.escreverPrompAlert(number);
+		dsl.obterTextoAlertaEConfirma();
+		dsl.obterTextoAlertaECancela();
 
-		String textValidation = dsl.obterTextoAlerta(alert);
+		String textValidation = dsl.obterTextoAlertaEConfirma();
 
 		assertEquals(":(", textValidation);
 

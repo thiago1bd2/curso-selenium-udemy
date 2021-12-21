@@ -1,17 +1,18 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
-import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 
+import br.com.thiago1bd2.core.BaseTest;
 import br.com.thiago1bd2.core.DSL;
+import br.com.thiago1bd2.page.CampoTreinamentoPage;
 
-public class TesteValidacaoCadastro {
+public class TesteValidacaoCadastro extends BaseTest {
 
 	final String CAMPO_TREINAMENTO_HTML = "file:///" + System.getProperty("user.dir")
 			+ "/src/main/resources/componentes.html";
@@ -27,18 +28,11 @@ public class TesteValidacaoCadastro {
 
 	}
 
-	@After
-	public void finalize() {
-		killDriver();
-	}
-
 	@Test
 	public void deveValidarSeNomeEstaVazioAposErroDeNomeVazio() {
 		page.cadastrar();
 
-		Alert alert = dsl.mudarFocoAlerta();
-		alert.accept();
-
+		dsl.obterTextoAlertaEConfirma();
 		assertEquals("", page.getNome());
 	}
 
@@ -47,9 +41,7 @@ public class TesteValidacaoCadastro {
 		page.setNome("Nome");
 		page.cadastrar();
 
-		Alert alert = dsl.mudarFocoAlerta();
-		alert.accept();
-
+		dsl.obterTextoAlertaEConfirma();
 		assertEquals("", page.getSobrenome());
 	}
 
@@ -59,9 +51,7 @@ public class TesteValidacaoCadastro {
 		page.setSobrenome("Sobrenome");
 		page.cadastrar();
 
-		Alert alert = dsl.mudarFocoAlerta();
-		alert.accept();
-
+		dsl.obterTextoAlertaEConfirma();
 		assertFalse(page.isMasculinoMarcado() && page.isFemininoMarcado());
 	}
 
@@ -75,8 +65,7 @@ public class TesteValidacaoCadastro {
 		page.setComidaFavoritaVegetariano();
 		page.cadastrar();
 
-		Alert alert = dsl.mudarFocoAlerta();
-		dsl.confirmarAlerta(alert);
+		dsl.obterTextoAlertaEConfirma();
 
 		assertTrue((page.isCarneMarcada() || page.isFrangoMarcado()) && page.isVegetarianoMarcado());
 	}
@@ -94,9 +83,7 @@ public class TesteValidacaoCadastro {
 
 		page.cadastrar();
 
-		Alert alert = dsl.mudarFocoAlerta();
-		dsl.confirmarAlerta(alert);
-
+		dsl.obterTextoAlertaEConfirma();
 		assertTrue((page.quantidadeOpcoesEsporteSelecionados() > 1) && page.isEsporteSelecionado(oQueEhEsporteOption));
 
 	}

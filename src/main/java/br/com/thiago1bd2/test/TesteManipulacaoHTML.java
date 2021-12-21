@@ -1,3 +1,5 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
@@ -43,7 +45,7 @@ public class TesteManipulacaoHTML {
 
 	@Test
 	public void deveInteragirComRadioButton() {
-		dsl.clicarElemento("elementosForm:sexo:0");		
+		dsl.clicarElemento("elementosForm:sexo:0");
 		assertTrue(dsl.isElementoSelecionado("elementosForm:sexo:0"));
 	}
 
@@ -90,7 +92,7 @@ public class TesteManipulacaoHTML {
 		assertTrue((dsl.obterTextoElemento(By.className("facilAchar")))
 				.contains("Cuidado onde clica, muitas armadilhas..."));
 	}
-	
+
 	@Test
 	public void manipulacaoComJavaScript() {
 		dsl.executarJS("document.getElementById('elementosForm:nome').value = 'Nome'");
@@ -98,11 +100,11 @@ public class TesteManipulacaoHTML {
 		WebElement element = getDriver().findElement(By.id("elementosForm:nome"));
 		dsl.executarJS("arguments[0].style.border = arguments[1]", element, "solid 4px red");
 	}
-	
+
 	@Test
 	public void clicarBotaoTabela() {
-		//clica na primeira ocorrencia dado o valor
+		// clica na primeira ocorrencia dado o valor
 		dsl.clicarBotaoTabela("Escolaridade", "Superior", "Botao", "elementosForm:tableUsuarios");
-		
+
 	}
 }

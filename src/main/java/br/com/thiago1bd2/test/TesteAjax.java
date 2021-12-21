@@ -1,3 +1,5 @@
+package br.com.thiago1bd2.test;
+
 import static br.com.thiago1bd2.core.DriverFactory.getDriver;
 import static br.com.thiago1bd2.core.DriverFactory.killDriver;
 import static org.junit.Assert.assertEquals;
@@ -27,7 +29,7 @@ public class TesteAjax {
 	public void finalize() {
 		killDriver();
 	}
-	
+
 	@Test
 	public void testeAjaxEsperaValorEmElementoAparecer() {
 		dsl.escreverTexto("j_idt304:name", "Nome-nome");
@@ -36,7 +38,7 @@ public class TesteAjax {
 //		wait.until(ExpectedConditions.textToBe(By.id("j_idt304:display"), "Nome-nome"));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("j_idt350_start")));
 		assertEquals(dsl.obterValorElemento("j_idt304:name"), dsl.obterTextoElemento("j_idt304:display"));
-		
+
 	}
 
 }
